@@ -1,0 +1,170 @@
+body {
+  background: url(images/1.jpg) center top no-repeat fixed;
+  margin: 0;
+  padding: 0;
+  padding-top: 41px; }
+
+.ui_icon {
+  width: 15px;
+  height: 15px;
+  display: inline-block;
+  background-repeat: no-repeat;
+  font-size: 0;
+  overflow: hidden;
+  background-image: url(images/timeline.png);
+  margin-right: 5px; }
+
+.top {
+  position: fixed;
+  top: 0;
+  z-index: 99;
+  width: 100%;
+  height: 41px;
+  background: #001E3B;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2); }
+
+.header {
+  height: 200px;
+  margin: 0 auto;
+  width: 960px;
+  background: rgba(255, 255, 255, 0.2); }
+
+.contain {
+  position: relative;
+  width: 960px;
+  margin: 0 auto; }
+  .contain .datescroll {
+    position: absolute;
+    top: 29px;
+    left: 0;
+    width: 47px;
+    min-height: 200px;
+    /* background: rgba(255, 255, 255, .2); */ }
+    .contain .datescroll a {
+      display: block;
+      height: 26px;
+      line-height: 26px;
+      padding-right: 5px;
+      font-size: 12px;
+      text-align: right;
+      border-right: 2px solid #c8c8c8;
+      text-decoration: none;
+      color: #a5a5a5;
+      text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3); }
+      .contain .datescroll a.current, .contain .datescroll a:hover {
+        color: #7ebad0;
+        border-right: 2px solid #7ebad0;
+        font-weight: bold; }
+      .contain .datescroll a:hover {
+        text-decoration: underline; }
+      .contain .datescroll a.current {
+        text-decoration: none; }
+  .contain .content {
+    min-height: 1000px;
+    padding: 50px 0 0 160px;
+    background: url(./images/spine.png) repeat-y 121px 0; }
+    .contain .content .content_year, .contain .content .content_month {
+      position: relative;
+      left: -90px;
+      height: 30px;
+      line-height: 30px;
+      color: #a5a5a5;
+      text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+      font-weight: bold;
+      font-size: 14px; }
+    .contain .content .content_item {
+      width: 370px;
+      min-height: 300px;
+      background: #fff;
+      margin: 20px 30px 0 0;
+      position: relative;
+      color: #888;
+      border-radius: 4px; }
+      .contain .content .content_item .content_item_icon_arrow {
+        position: absolute;
+        top: 20px;
+        left: -20px;
+        width: 0;
+        border-width: 10px 10px 10px 10px;
+        border-color: transparent #fff transparent transparent;
+        border-style: solid; }
+      .contain .content .content_item .content_item_icon_dot {
+        position: absolute;
+        top: 24px;
+        left: -42px;
+        width: 11px;
+        height: 11px;
+        border-radius: 11px;
+        background: #fff; }
+        .contain .content .content_item .content_item_icon_dot .content_item_icon_dot_child {
+          position: absolute;
+          top: 2px;
+          left: 2px;
+          width: 7px;
+          height: 7px;
+          border-radius: 7px;
+          background: #b3dae9; }
+      .contain .content .content_item .content_item_head {
+        padding: 15px;
+        padding-bottom: 0px; }
+        .contain .content .content_item .content_item_head .title {
+          height: 46px;
+          line-height: 46px;
+          font-size: 28px;
+          padding: 0 0 10px 56px;
+          position: relative; }
+          .contain .content .content_item .content_item_head .title .lunar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 46px;
+            width: 46px;
+            overflow: hidden;
+            background: #b3dae9;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 27px;
+            line-height: 23px; }
+        .contain .content .content_item .content_item_head .intro {
+          margin-bottom: 10px;
+          font-size: 14px;
+          line-height: 22px;
+          padding: 0 15px; }
+          .contain .content .content_item .content_item_head .intro .quote_after {
+            background-position: -986px -102px; }
+          .contain .content .content_item .content_item_head .intro .quote_before {
+            background-position: -986px -85px; }
+      .contain .content .content_item .content_item_media {
+        height: 277px;
+        overflow: hidden;
+        padding-bottom: 10px; }
+      .contain .content .content_item .content_item_footer {
+        padding: 10px 15px;
+        margin: 0 15px;
+        font-size: 12px; }
+        .contain .content .content_item .content_item_footer .footer_info a {
+          display: inline-block;
+          height: 20px;
+          padding-right: 10px;
+          text-decoration: none;
+          color: #6EB8D3;
+          cursor: pointer;
+          font-size: 12px;
+          line-height: 20px; }
+          .contain .content .content_item .content_item_footer .footer_info a .icon_zan, .contain .content .content_item .content_item_footer .footer_info a .icon_pin {
+            width: 20px;
+            height: 20px;
+            display: inline-block;
+            background-repeat: no-repeat;
+            overflow: hidden;
+            background-image: url(images/timeline.png);
+            vertical-align: middle; }
+          .contain .content .content_item .content_item_footer .footer_info a .icon_zan {
+            background-position: -883px -21px; }
+          .contain .content .content_item .content_item_footer .footer_info a .icon_pin {
+            background-position: -897px -42px; }
+        .contain .content .content_item .content_item_footer .footer_like {
+          padding-top: 5px;
+          color: #6EB8D3; }
+
+/*# sourceMappingURL=style.css.map */
