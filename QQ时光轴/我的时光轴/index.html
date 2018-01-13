@@ -1,13 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>时光轴</title>
   <link rel="stylesheet" href="style.css">
-</head> 
+</head>
+
 <body>
+  <div class="hide" style="display:none">
+    <div class="tpl_datescroll_year">
+      <a href="javascript:;" class="datescroll_year current">{year}</a>
+      {list}
+    </div>
+    <div class="tpl_datescroll_month">
+      <a href="javascript:;" class="datescroll_month">{month}月</a>
+    </div>
+  </div>
+
+
+
   <div class="top"></div>
   <div class="header"></div>
   <div class="contain">
@@ -22,20 +36,20 @@
       <div class="content_item">
         <div class="content_item_icon_arrow"></div>
         <div class="content_item_icon_dot">
-          <div class="content_item_icon_dot_child"></div>          
+          <div class="content_item_icon_dot_child"></div>
         </div>
         <div class="content_item_head">
           <div class="title">
             <div class="lunar">
-              三<br>&nbsp;&nbsp;&nbsp;十
+              三
+              <br>&nbsp;&nbsp;&nbsp;十
             </div>
             2014-03-30
           </div>
           <div class="intro">
             <i class="ui_icon quote_before"></i>
-              腾讯视频年度大戏，陈冠希复出之作——《探灵档案》灵异上映。
-              一起看陈老师怎么在QQ空间里抽丝剥茧，最终破案的吧
-              <i class="ui_icon quote_after"></i>
+            腾讯视频年度大戏，陈冠希复出之作——《探灵档案》灵异上映。 一起看陈老师怎么在QQ空间里抽丝剥茧，最终破案的吧
+            <i class="ui_icon quote_after"></i>
           </div>
         </div>
         <div class="content_item_media">
@@ -43,8 +57,10 @@
         </div>
         <div class="content_item_footer">
           <div class="footer_info">
-            <a href="javascript:;" title="赞"><i class="icon_zan"></i>(199)</a>
-            <a href="javascript:;" title="评论"><i class="icon_pin"></i>(2199)</a>            
+            <a href="javascript:;" title="赞">
+              <i class="icon_zan"></i>(199)</a>
+            <a href="javascript:;" title="评论">
+              <i class="icon_pin"></i>(2199)</a>
           </div>
           <div class="footer_like">
             2.5万人觉得很赞
@@ -54,5 +70,36 @@
       </div>
     </div>
   </div>
+  <script src="data.js"></script>
+  <script src="GetLunarDay.js"></script>
+
+  <script>
+    // 通用函数
+    const g = id => document.querySelector(id)
+
+    const g_tpl = id => g('tpl_' + id).innerHTML
+
+    //格式化数据
+    let list = {}; //  { year: { month : [ item ,item ] } }
+
+    for (let i = 0; i < data.length; i++) {
+      let date = new Date(data[i].date)
+      let year = date.getFullYear()
+      let month = date.getMonth() + 1
+      let lunar = GetLunarDateString(date)
+
+      if (!list[year]) list[year] = {}
+      if (!list[year][month]) list[year][month] = []
+      let item = data[i]
+      item.month = month
+      item.year = year
+      item.lunar = lunar[0] + '<br>&nbsp;&nbsp;&nbsp;' + lunar[1]
+      item.like_format = item.like < 10000 ? item.like : (item.like / 10000).toFixed(1) 
+      + '万'
+
+      list[year][month].push(item)
+    }
+  </script>
 </body>
+
 </html>
