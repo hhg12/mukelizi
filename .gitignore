@@ -58,5 +58,7 @@ typings/
 .env
 
 */老师的/
-.sass-cache/
+*.sass-cache/
+*.scss
+style.css.map
 

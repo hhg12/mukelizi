@@ -11,28 +11,25 @@
 
 <body>
   <div class="hide" style="display:none">
-    <div class="tpl_datescroll_year">
+    <div id="tpl_datescroll_year">
       <a href="javascript:;" class="datescroll_year current">{year}</a>
       {list}
     </div>
-    <div class="tpl_datescroll_month">
+    <div id="tpl_datescroll_month">
       <a href="javascript:;" class="datescroll_month">{month}月</a>
     </div>
   </div>
 
-
-
-  <div class="top"></div>
-  <div class="header"></div>
-  <div class="contain">
-    <div class="datescroll">
-      <a href="javascript:;" class="datescroll_year current">2014</a>
-      <a href="javascript:;" class="datescroll_month">3月</a>
-      <a href="javascript:;" class="datescroll_month">2月</a>
+  <div class="hide" style="display:none">
+    <div id="tpl_content_year">
+      <div class="content_year">{year}</div>
+      {list}
     </div>
-    <div class="content">
-      <div class="content_year">2014</div>
-      <div class="content_month">3月</div>
+    <div id="tpl_content_month">
+      <div class="content_month">{month}</div>
+      {list}
+    </div>
+    <div id="tpl_content_item">
       <div class="content_item">
         <div class="content_item_icon_arrow"></div>
         <div class="content_item_icon_dot">
@@ -41,33 +38,50 @@
         <div class="content_item_head">
           <div class="title">
             <div class="lunar">
-              三
-              <br>&nbsp;&nbsp;&nbsp;十
+              {lunar}
             </div>
-            2014-03-30
+            {date}
           </div>
           <div class="intro">
             <i class="ui_icon quote_before"></i>
-            腾讯视频年度大戏，陈冠希复出之作——《探灵档案》灵异上映。 一起看陈老师怎么在QQ空间里抽丝剥茧，最终破案的吧
+            {intro}
             <i class="ui_icon quote_after"></i>
           </div>
         </div>
         <div class="content_item_media">
-          <img src="images/psb.jpeg" width="370">
+          {media}
         </div>
         <div class="content_item_footer">
           <div class="footer_info">
             <a href="javascript:;" title="赞">
-              <i class="icon_zan"></i>(199)</a>
+              <i class="icon_zan"></i>({like})</a>
             <a href="javascript:;" title="评论">
-              <i class="icon_pin"></i>(2199)</a>
+              <i class="icon_pin"></i>({comment})</a>
           </div>
           <div class="footer_like">
-            2.5万人觉得很赞
+            {like_format}人觉得很赞
           </div>
         </div>
 
       </div>
+    </div>
+  </div>
+
+
+
+
+  <div class="top"></div>
+  <div class="header"></div>
+  <div class="contain">
+    <div class="datescroll" id="datescroll">
+      <a href="javascript:;" class="datescroll_year current">2014</a>
+      <a href="javascript:;" class="datescroll_month">3月</a>
+      <a href="javascript:;" class="datescroll_month">2月</a>
+    </div>
+    <div class="content" id="content">
+      <div class="content_year">2014</div>
+      <div class="content_month">3月</div>
+
     </div>
   </div>
   <script src="data.js"></script>
@@ -77,7 +91,7 @@
     // 通用函数
     const g = id => document.querySelector(id)
 
-    const g_tpl = id => g('tpl_' + id).innerHTML
+    const g_tpl = id => g(id).innerHTML
 
     //格式化数据
     let list = {}; //  { year: { month : [ item ,item ] } }
@@ -94,11 +108,65 @@
       item.month = month
       item.year = year
       item.lunar = lunar[0] + '<br>&nbsp;&nbsp;&nbsp;' + lunar[1]
-      item.like_format = item.like < 10000 ? item.like : (item.like / 10000).toFixed(1) 
-      + '万'
+      item.like_format = item.like < 10000 ? item.like : (item.like / 10000).toFixed(1) +
+        '万'
 
       list[year][month].push(item)
     }
+
+    //时许菜单html生成
+    let html_datescroll_list = []
+
+    let tpl_year = g_tpl('#tpl_datescroll_year')
+    let tpl_month = g_tpl('#tpl_datescroll_month')
+
+    Object.keys(list).sort().forEach((y) => {
+      let html_year = tpl_year.replace(/\{year\}/g, y)
+
+      let html_month = []
+      Object.keys(list[y]).sort().forEach((m) => {
+        html_month.unshift(tpl_month.replace(/\{month\}/g, m))
+
+      })
+      html_year = html_year.replace(/\{list\}/g, html_month.join(''))
+      html_datescroll_list.unshift(html_year)
+    })
+    g('#datescroll').innerHTML = html_datescroll_list.join('')
+
+    //生成content
+    let html_content_list = []
+
+    tpl_year = g_tpl('#tpl_content_year')
+    tpl_month = g_tpl('#tpl_content_month')
+    tpl_item = g_tpl('#tpl_content_item')
+
+    for (y in list) {
+      console.log(y)
+      let html_year = tpl_year.replace(/\{year\}/g, y)
+
+      let html_month = []
+      for(m in list[y]){
+        console.log(m)
+        let html_item = []
+        for (i in list[y][m]) {
+          let data = list[y][m][i]
+          html_item.push(tpl_item
+            .replace(/\{lunar\}/g, data.lunar)
+            .replace(/\{date\}/g, data.date)
+            .replace(/\{media\}/g, data.media)
+            .replace(/\{like\}/g, data.like)
+            .replace(/\{comment\}/g, data.comment)
+            .replace(/\{like_format\}/g, data.like_format)
+            .replace(/\{intro\}/g, data.intro)
+          )
+        }
+        html_month.unshift(tpl_month.replace(/\{list\}/g, html_item.join('')).replace(/\{month\}/g, m))
+      }
+
+      html_year = html_year.replace(/\{list\}/g, html_month.join(''))
+      html_content_list.unshift(html_year)
+    }
+    g('#content').innerHTML = html_content_list.join('')
   </script>
 </body>
 
