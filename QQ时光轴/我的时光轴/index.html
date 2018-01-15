@@ -92,6 +92,7 @@
     const g = id => document.querySelector(id)
 
     const g_tpl = id => g(id).innerHTML
+    const g_class = cls => document.querySelectorAll(cls)
 
     //格式化数据
     let list = {}; //  { year: { month : [ item ,item ] } }
@@ -191,6 +192,7 @@
       let top = getTop(c_year)
       console.log(top)
       scrollTop(top)
+      highlight_year(g(`#datescroll_year_${year}`), year)
     }
 
     function show_month(year, month) {
@@ -199,6 +201,35 @@
       let top = getTop(c_month)
       console.log(top)
       scrollTop(top)
+      highlight_month(g(`#datescroll_month_${year}_${month}`))
+    }
+
+    //月份的高亮处理
+    function highlight_month(element) {
+      let months = g_class('.datescroll_month')
+      for (let i = 0; i < months.length; i++) {
+        months[i].className = months[i].className.replace(/current/g, '')
+      }
+      element.classList.add('current')
+    }
+
+    //年份高亮处理
+    function highlight_year(ele, year) {
+      let years = g_class('.datescroll_year')
+      let months = g_class('.datescroll_month')
+      // console.log(year)
+      let year_months = g_class(`.datescroll_month_in_${year}`)
+      for (let i = 0; i < years.length; i++) {
+        years[i].className = years[i].className.replace(/current/g, '')
+      }
+      for (let i = 0; i < months.length; i++) {
+        months[i].style.display = 'none';
+      }
+      // console.log(year_months)
+      for (let i = 0; i < year_months.length; i++) {
+        year_months[i].style.display = 'block';
+      }
+      ele.classList.add('current')
     }
   </script>
 </body>
