@@ -4,6 +4,14 @@ body {
   padding: 0;
   padding-top: 41px;
 }
+.clear {
+  clear: both;
+}
+.clearfix:after {
+  content: '';
+  display: block;
+  clear: both;
+}
 .ui_icon {
   width: 15px;
   height: 15px;
@@ -87,6 +95,18 @@ body {
       position: relative;
       color: #888;
       border-radius: 4px;
+      &.first {
+        margin-top: -20px;
+      }
+      &.content_item_left {
+        float: left;
+      }
+      &.content_item_right {
+        float: right;
+        .content_item_icon_dot {
+          left: -443px;
+        }
+      }
       .content_item_icon_arrow {
         position: absolute;
         top: 20px;

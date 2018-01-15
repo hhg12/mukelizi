@@ -22,15 +22,15 @@
 
   <div class="hide" style="display:none">
     <div id="tpl_content_year">
-      <div class="content_year">{year}</div>
+      <div class="content_year clear">{year}</div>
       {list}
     </div>
     <div id="tpl_content_month">
-      <div class="content_month">{month}</div>
+      <div class="content_month clear">{month}</div>
       {list}
     </div>
     <div id="tpl_content_item">
-      <div class="content_item">
+      <div class="content_item content_item_{position} {isFirst}">
         <div class="content_item_icon_arrow"></div>
         <div class="content_item_icon_dot">
           <div class="content_item_icon_dot_child"></div>
@@ -78,7 +78,7 @@
       <a href="javascript:;" class="datescroll_month">3月</a>
       <a href="javascript:;" class="datescroll_month">2月</a>
     </div>
-    <div class="content" id="content">
+    <div class="content clearfix" id="content">
       <div class="content_year">2014</div>
       <div class="content_month">3月</div>
 
@@ -145,9 +145,10 @@
       let html_year = tpl_year.replace(/\{year\}/g, y)
 
       let html_month = []
-      for(m in list[y]){
+      for (m in list[y]) {
         console.log(m)
         let html_item = []
+        let isFirst_at_month = true
         for (i in list[y][m]) {
           let data = list[y][m][i]
           html_item.push(tpl_item
@@ -156,9 +157,12 @@
             .replace(/\{media\}/g, data.media)
             .replace(/\{like\}/g, data.like)
             .replace(/\{comment\}/g, data.comment)
+            .replace(/\{position\}/g, i % 2 ? 'right' : 'left')
             .replace(/\{like_format\}/g, data.like_format)
             .replace(/\{intro\}/g, data.intro)
+            .replace(/\{isFirst\}/g, isFirst_at_month ? 'first' : '')
           )
+          isFirst_at_month = false
         }
         html_month.unshift(tpl_month.replace(/\{list\}/g, html_item.join('')).replace(/\{month\}/g, m))
       }
