@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html> -->
 <html lang="en">
 
 <head>
@@ -184,6 +184,10 @@
     function scrollTop(a) {
       window.scroll(0, a)
     }
+    //body宽度
+    function g_body_w() {
+      return document.body.offsetWidth
+    }
 
     //年份月份点击处理
     function show_year(year) {
@@ -230,6 +234,22 @@
         year_months[i].style.display = 'block';
       }
       ele.classList.add('current')
+    }
+
+    //页面滚动处理，固定时序菜单的位置、自动展开时序菜单
+    window.onscroll = function () {
+      let top = document.body.scrollTop
+      console.log(top)
+      let datescroll = g('#datescroll')
+      if (top > 200) {
+        datescroll.style.position = 'fixed'
+        datescroll.style.top = '60px'
+        datescroll.style.left = g_body_w()/2 -480 + 'px'
+      }else {
+        datescroll.style.position = ''
+        datescroll.style.top = ''
+        datescroll.style.left = ''
+      }
     }
   </script>
 </body>
