@@ -12,11 +12,13 @@
 <body>
   <div class="hide" style="display:none">
     <div id="tpl_datescroll_year">
-      <a href="javascript:;" class="datescroll_year current" id="datescroll_year_{year}" onclick="show_year({year})">{year}</a>
+      <a href="javascript:;" class="datescroll_year" id="datescroll_year_{year}" onclick="show_year({year})">{year}</a>
       {list}
     </div>
     <div id="tpl_datescroll_month">
-      <a href="javascript:;" class="datescroll_month datescroll_month_in_{year}" id="datescroll_month_{year}_{month}" onclick="show_month({year},{month})">{month}月</a>
+      <a href="javascript:;" class="datescroll_month datescroll_month_in_{year}" 
+      id="datescroll_month_{year}_{month}" onclick="show_month({year},{month})"
+      style="display:none">{month}月</a>
     </div>
   </div>
 
@@ -132,7 +134,8 @@
       html_year = html_year.replace(/\{list\}/g, html_month.join(''))
       html_datescroll_list.unshift(html_year)
     })
-    g('#datescroll').innerHTML = html_datescroll_list.join('')
+    g('#datescroll').innerHTML = html_datescroll_list.join('') +
+      '<a href="javascript:;" class="datescroll_year ">出生</a>'
 
     //生成content
     let html_content_list = []
@@ -173,7 +176,7 @@
       html_year = html_year.replace(/\{list\}/g, html_month.join(''))
       html_content_list.unshift(html_year)
     }
-    g('#content').innerHTML = html_content_list.join('')
+    g('#content').innerHTML = html_content_list.join('') + '<div class="content_year content_month clear"></div>'
 
     //通用函数
     //元素到顶端高度
@@ -208,7 +211,7 @@
       highlight_month(g(`#datescroll_month_${year}_${month}`))
     }
 
-    //月份的高亮处理
+    //时序月份的高亮处理
     function highlight_month(element) {
       let months = g_class('.datescroll_month')
       for (let i = 0; i < months.length; i++) {
@@ -216,8 +219,7 @@
       }
       element.classList.add('current')
     }
-
-    //年份高亮处理
+    //时序年份高亮处理
     function highlight_year(ele, year) {
       let years = g_class('.datescroll_year')
       let months = g_class('.datescroll_month')
@@ -236,20 +238,53 @@
       ele.classList.add('current')
     }
 
+    //滚动时，时序列表年的处理
+    function update_datescroll_year(top) {
+      let years = g('#content').querySelectorAll('.content_year')
+      let tops = []
+      for (let i = 0; i < years.length; i++) {
+        tops.push(years[i].offsetTop)
+      }
+      for (let i = 1; i < tops.length; i++) {
+        if (top > tops[i - 1] && top < tops[i]) {
+          let ele = g_class('.datescroll_year')[i]
+          let year = ele.innerHTML
+          highlight_year(ele, year)
+        }
+      }
+    }
+    //滚动时，时序month处理
+    function update_datescroll_month(top) {
+      let months = g('#content').querySelectorAll('.content_month')
+      let tops = []
+      for (let i = 0; i < months.length; i++) {
+        tops.push(months[i].offsetTop)
+      }
+      // console.log(tops)
+      for (let i = 1; i < tops.length; i++) {
+        if (top > tops[i - 1] && top < tops[i]) {
+          let ele = g_class('.datescroll_month')[i]
+          highlight_month(ele)
+        }
+      }
+    }
+
     //页面滚动处理，固定时序菜单的位置、自动展开时序菜单
     window.onscroll = function () {
       let top = document.body.scrollTop
-      console.log(top)
+      // console.log(top)
       let datescroll = g('#datescroll')
       if (top > 200) {
         datescroll.style.position = 'fixed'
         datescroll.style.top = '60px'
-        datescroll.style.left = g_body_w()/2 -480 + 'px'
-      }else {
+        datescroll.style.left = g_body_w() / 2 - 480 + 'px'
+      } else {
         datescroll.style.position = ''
         datescroll.style.top = ''
         datescroll.style.left = ''
       }
+      update_datescroll_year(top)
+      update_datescroll_month(top)
     }
   </script>
 </body>
